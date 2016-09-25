@@ -20,12 +20,6 @@ You're probably fine with
 You need a C compiler and some standard unix
 utilities.
 
-Thanks
-------
-
-Many thanks to [antirez](https://github.com/antirez)
-for his linenoise.
-
 License
 =======
 
