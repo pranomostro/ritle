@@ -1,0 +1,39 @@
+.TH PROGRAM 1
+.SH NAME
+ritle \- right to left input
+
+.SH SYNOPSIS
+ritle
+
+.SH DESCRIPTION
+ritle appends input characters at the left of
+the current input string, and prints that
+string to stdout when a newline is entered.
+It has the same behaviour as rev, but in real
+time.
+
+.SH EXAMPLES
+.PP
+.fi
+.RS
+$ ritle | klong
+.RE
+.fi
+allows you to use right to left
+input for a language with right to
+left operator precedence.
+.PP
+.fi
+.RS
+$ ritle
+.br
+_ךתוא יתבזע אל םלועמ
+.RE
+.fi
+hebrew input with current cursor as underscore
+
+.SH "SEE ALSO"
+.IR rev(1).
+
+.SH AUTHOR
+pranomostro (pranomestro@gmail.com).
