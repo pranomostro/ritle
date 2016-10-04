@@ -16,7 +16,7 @@ int dortl(void)
 {
 	struct back in;
 	/*while(no newline)*/
-	/*read new rune || arrow key*/
+	/*read new rune || arrow key (needed: port libbio? write own version (would be ugly)?*/
 	/*display the current thing || move the cursor position*/
 	printrtl(in);
 	/*repeat*/
