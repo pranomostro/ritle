@@ -16,7 +16,7 @@ int dortl(void)
 {
 	struct back in;
 	/*while(no newline)*/
-	/*read new rune || arrow key (needed: port libbio? write own version (would be ugly)?*/
+	/*read new rune || arrow key, use libtermkey. Fuck that 'deprecated!' thing.*/
 	/*display the current thing || move the cursor position*/
 	printrtl(in);
 	/*repeat*/
@@ -30,25 +30,6 @@ void printrtl(int align, struct back in)
 	printf("\33[2K\r");
 	/*print the line*/
 	/*set cursor position*/
-}
-
-int getkey(void) {
-	int c;
-	struct termios orig, new;
-
-	tcgetattr(fileno(stdin), &orig);
-	memcpy(&new, &orig, sizeof(struct termios));
-	new.c_lflag&=~(ICANON|ECHO|ISIG);
-	new.c_cc[VTIME]=0;
-	new.c_cc[VMIN]=1;
-	tcsetattr(fileno(stdin), TCSANOW, &new);
-
-	c=fgetc(stdin);
-	fflush(stdin);
-
-	tcsetattr(fileno(stdin), TCSANOW, &orig);
-
-	return c;
 }
 
 int main(int argc, char* argv[])
