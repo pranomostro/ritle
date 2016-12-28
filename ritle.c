@@ -19,6 +19,7 @@ void printrtl(FILE* ttyout);
 
 int dortl(FILE* ttyout)
 {
+	size_t i;
 	TermKeyKey key;
 	TermKeyResult result;
 
@@ -66,8 +67,11 @@ int dortl(FILE* ttyout)
 	}
 	printrtl(ttyout);
 	fprintf(ttyout, "\n");
-	printrtl(stdout);
-	fprintf(stdout, "\n");
+
+	for(i=pos; i<LEN(line); i++)
+		printf("%s", line[i]);
+	printf("\n");
+
 	return 1;
 }
 
@@ -80,6 +84,7 @@ void printrtl(FILE* ttyout)
 	fprintf(ttyout, "\33[2K\r");
 	for(i=pos; i<LEN(line); i++)
 		fprintf(ttyout, "%s", line[i]);
+	fprintf(ttyout, "\33[255D");
 }
 
 int main(int argc, char* argv[])
