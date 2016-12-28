@@ -12,19 +12,19 @@ char line[2048][7] = { 0 };
 
 TermKey* tk;
 
-int dortl(void);
-void printrtl(void);
+int dortl(FILE* ttyout);
+void printrtl(FILE* ttyout);
 
 /*returns 1 if everything is alright, and 0 if ^D or ^C*/
 
-int dortl(void)
+int dortl(FILE* ttyout)
 {
 	TermKeyKey key;
 	TermKeyResult result;
 
 	for(;;)
 	{
-		printrtl();
+		printrtl(ttyout);
 		result=termkey_waitkey(tk, &key);
 
 		if(result!=TERMKEY_RES_KEY)
@@ -64,28 +64,30 @@ int dortl(void)
 			memcpy(line[pos], key.utf8, LEN(key.utf8));
 		}
 	}
-	printrtl();
-	puts("");
+	printrtl(ttyout);
+	fprintf(ttyout, "\n");
+	printrtl(stdout);
+	fprintf(stdout, "\n");
 	return 1;
 }
 
 /*prints the line with the correct cursor position*/
 
-void printrtl(void)
+void printrtl(FILE* ttyout)
 {
 	size_t i;
-	printf("\33[2K\r");
+
+	fprintf(ttyout, "\33[2K\r");
 	for(i=pos; i<LEN(line); i++)
-		printf("%s", line[i]);
+		fprintf(ttyout, "%s", line[i]);
 }
 
 int main(int argc, char* argv[])
 {
 	int ret;
+	FILE* ttyout;
 
 	TERMKEY_CHECK_VERSION;
-
-	setbuf(stdout, NULL);
 
 	tk=termkey_new(0, 0);
 
@@ -95,13 +97,18 @@ int main(int argc, char* argv[])
 		exit(1);
 	}
 
+	ttyout=fopen("/dev/tty", "w");
+	setbuf(stdout, NULL);
+	setbuf(ttyout, NULL);
+
 	do
 	{
 		pos=LEN(line);
-		ret=dortl();
+		ret=dortl(ttyout);
 	}
 	while(ret);
 
+	fclose(ttyout);
 	termkey_destroy(tk);
 
 	return 0;
