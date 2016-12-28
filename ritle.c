@@ -14,12 +14,12 @@ TermKey* tk;
 
 int dortl(FILE* ttyout);
 void printrtl(FILE* ttyout);
+void printl(FILE* out);
 
-/*returns 1 if everything is alright, and 0 if ^D or ^C*/
+/* returns 1 if everything is alright, and 0 if ^D or ^C */
 
 int dortl(FILE* ttyout)
 {
-	size_t i;
 	TermKeyKey key;
 	TermKeyResult result;
 
@@ -65,26 +65,27 @@ int dortl(FILE* ttyout)
 			memcpy(line[pos], key.utf8, LEN(key.utf8));
 		}
 	}
-	printrtl(ttyout);
-	fprintf(ttyout, "\n");
-
-	for(i=pos; i<LEN(line); i++)
-		printf("%s", line[i]);
-	printf("\n");
 
 	return 1;
 }
 
-/*prints the line with the correct cursor position*/
+/* prints the line with the correct cursor position */
 
 void printrtl(FILE* ttyout)
 {
+	fprintf(ttyout, "\33[2K\r");
+	printl(ttyout);
+	fprintf(ttyout, "\33[4096D"); /* lets just hope the user has no wider terminal */
+}
+
+/* prints the current line to the file */
+
+void printl(FILE* out)
+{
 	size_t i;
 
-	fprintf(ttyout, "\33[2K\r");
 	for(i=pos; i<LEN(line); i++)
-		fprintf(ttyout, "%s", line[i]);
-	fprintf(ttyout, "\33[255D");
+		fprintf(out, "%s", line[i]);
 }
 
 int main(int argc, char* argv[])
@@ -110,6 +111,10 @@ int main(int argc, char* argv[])
 	{
 		pos=LEN(line);
 		ret=dortl(ttyout);
+		printrtl(ttyout);
+		fprintf(ttyout, "\n");
+		printl(stdout);
+		fprintf(stdout, "\n");
 	}
 	while(ret);
 
