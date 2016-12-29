@@ -6,7 +6,7 @@ type at the left of the current line instead of the right. This is useful
 when working in environments with no native support for rtl text or when
 working with array languages with rtl operator precedence.
 
-TODO: insert gif here showing it in action.
+[!ritle demo](https://asciinema.org/a/36tuo0sabnned0xisq7b7az1b)
 
 Building and installation
 -------------------------
