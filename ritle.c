@@ -77,10 +77,13 @@ int dortl(FILE* ttyout)
 			return 0;
 		else
 		{
+			if(lim>LEN(line)||lim==0)
+			{
+				fprintf(stderr, "error: input line length limit hit (workaround: edit source and recompile)\n");
+				continue;
+			}
 			lim--;
 			pos--;
-			if(lim>LEN(line)) /* instead have an error? */
-				break;
 			if(pos>lim)
 				memmove(line+lim, line+lim+1, (pos-lim)*sizeof(*line));
 			memcpy(line[pos], key.utf8, LEN(key.utf8));
