@@ -37,8 +37,11 @@ int dortl(FILE* ttyout)
 			break;
 		else if(!strcmp(termkey_get_keyname(tk, key.code.sym), "Backspace"))
 		{
-			if(lim<LEN(line))
+			if(pos<LEN(line))
 			{
+				if(pos!=lim)
+					memmove(line+lim+1, line+lim, (pos-lim)*sizeof(*line));
+				memset(line[lim], '\0', sizeof(line[lim]));
 				if(pos<LEN(line))
 					pos++;
 				lim++;
@@ -75,9 +78,12 @@ int dortl(FILE* ttyout)
 		else
 		{
 			lim--;
-			if(pos>LEN(line)) /* instead have an error? */
+			pos--;
+			if(lim>LEN(line)) /* instead have an error? */
 				break;
-			memcpy(line[lim], key.utf8, LEN(key.utf8));
+			if(pos>lim)
+				memmove(line+lim, line+lim+1, (pos-lim)*sizeof(*line));
+			memcpy(line[pos], key.utf8, LEN(key.utf8));
 		}
 	}
 
