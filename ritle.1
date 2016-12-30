@@ -3,7 +3,7 @@
 ritle \- right to left input
 
 .SH SYNOPSIS
-ritle
+ritle [PROMPT]
 
 .SH DESCRIPTION
 ritle appends input characters at the left of the current input string,
@@ -12,12 +12,17 @@ newline, it also prints that string to stdout.  It has a behaviour
 similar to rev, but in real time. ritle ends when ^C or ^D is entered.
 Backspace deletes the current character, and the right part of the line
 is moved to the left. The cursor keys can be used for navigation in the line.
+The prompt is optional and not part of the output line, it is only shown
+on the tty.
 
 .SH EXAMPLES
 .PP
 .fi
 .RS
 $ ritle | kg
+.br
+[3 3]:^!9
+[[0 1 2] [3 4 5] [6 7 8]]
 .RE
 .fi
 allows you to use right to left input for a language with right to left
@@ -35,7 +40,6 @@ A! A! ANTIMELANCHOLIA!
 piping ritle to rev reverses the effect of ritle.
 .RE
 .fi
-
 .PP
 .fi
 .RS

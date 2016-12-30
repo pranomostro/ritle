@@ -7,6 +7,8 @@
 
 #define LEN(x) (sizeof (x) / sizeof*(x))
 
+char *prompt;
+
 size_t pos, lim;
 char line[2048][7] = { 0 };
 
@@ -98,8 +100,11 @@ int dortl(FILE* ttyout)
 void printrtl(FILE* ttyout)
 {
 	fprintf(ttyout, "\33[2K\r");
+	fprintf(ttyout, "%s", prompt);
 	printl(ttyout);
 	fprintf(ttyout, "\33[4096D"); /* lets just hope the user has no wider terminal */
+	if(strlen(prompt)>0)
+		fprintf(ttyout, "\33[%liC", strlen(prompt));
 	if(pos-lim>0)
 		fprintf(ttyout, "\33[%liC", pos-lim);
 }
@@ -129,6 +134,15 @@ int main(int argc, char* argv[])
 		exit(1);
 	}
 
+	if(argc>1)
+	{
+		prompt=malloc(strlen(argv[1])+1);
+		memcpy(prompt, argv[1], strlen(argv[1])+1);
+		prompt[strlen(argv[1])+1]='\0';
+	}
+	else
+		prompt="";
+
 	ttyout=fopen("/dev/tty", "w");
 	setbuf(stdout, NULL);
 	setbuf(ttyout, NULL);
@@ -146,6 +160,8 @@ int main(int argc, char* argv[])
 	while(ret);
 
 	fclose(ttyout);
+	if(argc>1)
+		free(prompt);
 	termkey_destroy(tk);
 
 	return 0;
