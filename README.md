@@ -24,4 +24,4 @@ Dependencies:
 License
 =======
 
-MIT license, more details in ./COPYING.
+MIT license, more details in ./LICENSE.
