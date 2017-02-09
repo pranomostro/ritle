@@ -19,10 +19,19 @@ on the tty.
 .PP
 .fi
 .RS
-$ ritle | kg
+$ ritle '_ ' | kg
 .br
-[3 3]:^!9
+_ 1+1
+.br
+2
+.br
+_ [3 3]:^!9
+.br
 [[0 1 2] [3 4 5] [6 7 8]]
+.br
+_ r::{|/(+/+x),(+/x)}
+.br
+:monad
 .RE
 .fi
 allows you to use right to left input for a language with right to left
@@ -50,6 +59,13 @@ $ ritle
 .fi
 hebrew input (because rtl text is broken nearly anywhere, I can not
 guarantee that this will be displayed correctly).
+
+.SH BUGS
+.P
+The prompt is often printed as a part of the output line, because ritle
+is sometimes faster than the other program at printing. This is a nuisance,
+but there seems no clean way of discovering that the other program has finished
+it's output (afaik).
 
 .SH "SEE ALSO"
 .IR rev(1).
