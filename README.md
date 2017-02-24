@@ -7,7 +7,7 @@ when working in environments with no native support for rtl text (e.g for
 [hebrew, persian or arabic](https://en.wikipedia.org/wiki/Right-to-left))
 or when working with array languages with rtl operator precedence.
 
-[![ritle demo](https://asciinema.org/a/56jxch7e3x6slikj5ng43efqi.png)](https://asciinema.org/a/56jxch7e3x6slikj5ng43efqi)
+[![ritle demo](https://asciinema.org/a/8gzhlf1hf5jtobzixytsryqrq.png)](https://asciinema.org/a/8gzhlf1hf5jtobzixytsryqrq)
 
 Building and installation
 -------------------------
