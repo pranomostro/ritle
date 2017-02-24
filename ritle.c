@@ -27,69 +27,63 @@ int dortl(FILE* ttyout)
 
 	for(;;)
 	{
-		printrtl(ttyout);
 		result=termkey_waitkey(tk, &key);
 
 		if(result!=TERMKEY_RES_KEY)
 			return 0;
 
-		if(key.type!=TERMKEY_TYPE_KEYSYM)
-			;
-		else if(!strcmp(termkey_get_keyname(tk, key.code.sym), "Enter"))
-			break;
-		else if(!strcmp(termkey_get_keyname(tk, key.code.sym), "Backspace"))
+		if(key.type==TERMKEY_TYPE_KEYSYM)
 		{
-			if(pos<LEN(line))
+			if(!strcmp(termkey_get_keyname(tk, key.code.sym), "Enter"))
+				break;
+			else if(!strcmp(termkey_get_keyname(tk, key.code.sym), "Backspace"))
 			{
-				if(pos!=lim)
-					memmove(line+lim+1, line+lim, (pos-lim)*sizeof(*line));
-				memset(line[lim], '\0', sizeof(line[lim]));
+				if(pos<LEN(line))
+				{
+					if(pos!=lim)
+						memmove(line+lim+1, line+lim, (pos-lim)*sizeof(*line));
+					memset(line[lim], '\0', sizeof(line[lim]));
+					if(pos<LEN(line))
+						pos++;
+					lim++;
+				}
+			}
+			else if(!strcmp(termkey_get_keyname(tk, key.code.sym), "Tab"))
+			{
+				pos--;
+				lim--;
+				memcpy(line[pos], "\t", strlen("\t"));
+			}
+			else if(!strcmp(termkey_get_keyname(tk, key.code.sym), "Left"))
+			{
+				if(pos>lim)
+					pos--;
+			}
+			else if(!strcmp(termkey_get_keyname(tk, key.code.sym), "Right"))
 				if(pos<LEN(line))
 					pos++;
-				lim++;
-			}
-			continue;
 		}
-		else if(!strcmp(termkey_get_keyname(tk, key.code.sym), "Tab"))
+		else if(key.type==TERMKEY_TYPE_UNICODE)
 		{
-			pos--;
-			lim--;
-			memcpy(line[pos], "\t", strlen("\t"));
-			continue;
-		}
-		else if(!strcmp(termkey_get_keyname(tk, key.code.sym), "Left"))
-		{
-			if(pos>lim)
-				pos--;
-			continue;
-		}
-		else if(!strcmp(termkey_get_keyname(tk, key.code.sym), "Right"))
-		{
-			if(pos<LEN(line))
-				pos++;
-			continue;
-		}
-
-		if(key.type!=TERMKEY_TYPE_UNICODE)
-			continue;
-
-		if(key.modifiers&TERMKEY_KEYMOD_CTRL&&
-		   (key.code.codepoint=='C'||key.code.codepoint=='c'||
-		    key.code.codepoint=='D'||key.code.codepoint=='d'))
-			return 0;
-		else
-		{
-			if(lim>LEN(line)||lim==0)
+			if(key.modifiers&TERMKEY_KEYMOD_CTRL&&
+			   (key.code.codepoint=='C'||key.code.codepoint=='c'||
+			    key.code.codepoint=='D'||key.code.codepoint=='d'))
+				return 0;
+			else
 			{
-				fprintf(stderr, "error: input line length limit hit (workaround: edit source and recompile)\n");
-				continue;
+				if(lim>LEN(line)||lim==0)
+				{
+					fprintf(stderr, "error: input line length limit hit (workaround: edit source and recompile)\n");
+					continue;
+				}
+				lim--;
+				pos--;
+				if(pos>lim)
+					memmove(line+lim, line+lim+1, (pos-lim)*sizeof(*line));
+				memcpy(line[pos], key.utf8, LEN(key.utf8));
 			}
-			lim--;
-			pos--;
-			if(pos>lim)
-				memmove(line+lim, line+lim+1, (pos-lim)*sizeof(*line));
-			memcpy(line[pos], key.utf8, LEN(key.utf8));
 		}
+		printrtl(ttyout);
 	}
 
 	return 1;
