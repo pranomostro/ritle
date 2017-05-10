@@ -66,8 +66,8 @@ int dortl(FILE* ttyout)
 		else if(key.type==TERMKEY_TYPE_UNICODE)
 		{
 			if(key.modifiers&TERMKEY_KEYMOD_CTRL&&
-			   (key.code.codepoint=='C'||key.code.codepoint=='c'||
-			    key.code.codepoint=='D'||key.code.codepoint=='d'))
+			  (key.code.codepoint=='C'||key.code.codepoint=='c'||
+			   key.code.codepoint=='D'||key.code.codepoint=='d'))
 				return 0;
 			else
 			{
