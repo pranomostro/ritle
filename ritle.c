@@ -10,7 +10,7 @@
 char *prompt;
 
 size_t pos, lim;
-char line[2048][7] = { 0 };
+char line[2048][7]={ 0 };
 
 TermKey* tk;
 
