@@ -2,8 +2,10 @@ PREFIX=/usr/local
 
 CC=cc
 
-CFLAGS=-Wall -Wextra -std=c89 -pedantic -s -O2
-LDFLAGS=-ltermkey
+CFLAGS=-Wall -Wextra -std=c89 -pedantic -O2
+LDFLAGS=-s -ltermkey
 
-TARGET=ritle
-OBJS=ritle.o
+BIN=ritle
+OBJ=$(BIN:=.o)
+MAN=$(BIN:=.1)
+CONF=config.mk

@@ -1,24 +1,27 @@
 include config.mk
 
-all: $(TARGET)
+all: $(BIN)
 
-$(TARGET): $(OBJS)
-	$(CC) $(LDFLAGS) $(OBJS) -o $(TARGET)
+$(BIN): $(OBJ)
+$(OBJ): $(CONF)
 
-%.o: %.c
+.o:
+	$(CC) $(LDFLAGS) -o $@ $(OBJ)
+
+.c.o:
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(TARGET) $(OBJS)
+	rm -rf $(BIN) $(OBJ)
 
-install: $(TARGET)
+install: $(BIN)
 	mkdir -p $(PREFIX)/bin $(PREFIX)/share/man/man1
-	cp $(TARGET) $(PREFIX)/bin
-	cp $(TARGET).1 $(PREFIX)/share/man/man1
-	chmod 755 $(PREFIX)/bin/$(TARGET)
-	chmod 644 $(PREFIX)/share/man/man1/$(TARGET).1
+	cp $(BIN) $(PREFIX)/bin
+	cp $(MAN) $(PREFIX)/share/man/man1
+	chmod 755 $(PREFIX)/bin/$(BIN)
+	chmod 644 $(PREFIX)/share/man/man1/$(MAN)
 
 uninstall:
-	rm -f $(PREFIX)/bin/$(TARGET) $(PREFIX)/share/man/man1/$(TARGET).1
+	rm -f $(PREFIX)/bin/$(BIN) $(PREFIX)/share/man/man1/$(MAN)
 
-.PHONY: all clean install
+.PHONY: all clean install uninstall
