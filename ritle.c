@@ -141,17 +141,18 @@ int main(int argc, char* argv[])
 	setbuf(stdout, NULL);
 	setbuf(ttyout, NULL);
 
-	do
+	while(1)
 	{
 		pos=LEN(line);
 		lim=LEN(line);
 		ret=dortl(ttyout);
+		if(!ret)
+			break;
 		printrtl(ttyout);
 		fprintf(ttyout, "\n");
 		printl(stdout);
 		fprintf(stdout, "\n");
 	}
-	while(ret);
 
 	fclose(ttyout);
 	if(argc>1)

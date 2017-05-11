@@ -1,74 +1,66 @@
-.TH PROGRAM 1
-.SH NAME
-ritle \- right to left input
+.Dd May 10, 2017
+.Dt RITLE 1
+.Os
 
-.SH SYNOPSIS
-ritle [prompt]
+.Sh NAME
+.Nm ritle
+.Nd right to left input
 
-.SH DESCRIPTION
-ritle appends input characters at the beginnig of the current input string,
-and prints that string to the tty whenever a char is entered. After a
-newline, it also prints that string to stdout. It has a behaviour
-similar to rev, but in real time. ritle ends when ^C or ^D is entered.
-Backspace deletes the current character, and the right part of the line
-is moved to the left. The cursor keys can be used for navigation in the line.
-The prompt is optional and not part of the output line, it is only shown
-on the tty.
+.Sh SYNOPSIS
+.Nm ritle
+.Op Ar prompt
 
-.SH EXAMPLES
-.PP
-.fi
-.RS
-$ ritle '_ ' | kg
-.br
-_ 1+1
-.br
-2
-.br
-_ [3 3]:^!9
-.br
-[[0 1 2] [3 4 5] [6 7 8]]
-.br
-_ r::{|/(+/+x),(+/x)}
-.br
-:monad
-.RE
-.fi
-allows you to use right to left input for a language with right to left
-operator precedence (klong).
-.PP
-.fi
-.RS
-$ ritle | rev
-.br
-!AILOHCNALEMITNA !A !A
-.br
-A! A! ANTIMELANCHOLIA!
-.RE
-.fi
-piping ritle to rev reverses the effect of ritle.
-.RE
-.fi
-.PP
-.fi
-.RS
-$ ritle
-.br
-מעולם לא עזבתי אותך
-.RE
-.fi
-hebrew input (because rtl text is broken nearly anywhere, I can not
-guarantee that this will be displayed correctly).
+.Sh DESCRIPTION
+.Nm
+appends input characters at the beginning of the current input string,
+and prints that string to the tty whenever input is entered. After a
+newline, it prints the saved string to stdot. When ^C or ^D is entered,
+ritle exits. Backspace deletes the character right to the cursor. The
+cursor keys work as normal.
+.Op Ar prompt
+is shown at the begining of the line on the tty, but is not part of the
+output line.
 
-.SH BUGS
-.P
-The prompt appears after the first keypress. This happens in order to avoid it appearing
-in the output of commands (which is far more annoying).
-.P
-The line length is limited to a hard-coded number in the source code (currently 2048 characters).
+.Sh EXAMPLES
+Using an array language with right-to-left operator precedence with
+.Nm :
+.Pp
+.Dl $ ritle '_ ' | kg
+.Dl _ 1+1
+.Dl 2
+.Dl _ [3 3]:^!9
+.Dl [[0 1 2] [3 4 5] [6 7 8]]
+.Dl _ r::{|/(+/+x),(+/x)}
+.Dl :monad
+.Pp
+Piping
+.Nm
+into rev reverses the effect of
+.Nm :
+.Pp
+.Dl $ ritle | rev
+.Dl !AILOHCNALEMITNA
+.Dl ANTIMELANCHOLIA!
+.Pp
+Using
+.Nm
+for entering hebrew letters:
+.Pp
+.Dl $ ritle
+.Dl מעולם לא עזבתי אותך
 
-.SH "SEE ALSO"
-.IR rev(1).
+.Sh EXIT STATUS
+.Ex -std
 
-.SH AUTHOR
-pranomostro (pranomestro@gmail.com)
+.Sh BUGS
+.Op Ar prompt
+only appears after the first keypress.
+.Pp
+The maximal line length is hard-coded into the source code.
+
+.Sh SEE ALSO
+.Xr kg 1 ,
+.Xr rev 1 .
+
+.Sh AUTHORS
+.An pranomostro Aq Mt pranomestro@gmail.com
