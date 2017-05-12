@@ -25,7 +25,7 @@ int dortl(FILE* ttyout)
 	TermKeyKey key;
 	TermKeyResult result;
 
-	for(;;)
+	while(1)
 	{
 		result=termkey_waitkey(tk, &key);
 
