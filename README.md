@@ -1,7 +1,7 @@
 ritle-right to left (rtl) text for the cli
 ==========================================
 
-[![ritle demo](https://asciinema.org/a/8gzhlf1hf5jtobzixytsryqrq.png)](https://asciinema.org/a/8gzhlf1hf5jtobzixytsryqrq)
+[![ritle demo](https://asciinema.org/a/313407.svg)](https://asciinema.org/a/313407)
 
 ritle is a little program that lets you append the characters you type
 at the left of the current line instead of the right. This is useful
